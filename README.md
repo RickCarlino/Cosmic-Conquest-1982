@@ -27,4 +27,4 @@ Assuming you have installed `gforth` installed:
 gforth main.fs
 ```
 
-I don't have a preferred GForth version yet.
+I don't have a preferred GForth version yet. **I have no certainty that GForth will work and may change this decision later. Some discussion on Reddit seems to indicate it will either not work or require source modification.**
