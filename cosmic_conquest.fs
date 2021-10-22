@@ -36,12 +36,19 @@ SIZE 3 * 2 / CONSTANT NO-OF-PLANETS ( planets in galaxy)
 
 ( DEFINING WORDS)
 : ARRAY ( 2D Array)
-   <BUILDS DUP C, * ALLOT DOES>
+\   <BUILDS DUP C, * ALLOT DOES>
+   create dup c, * allot does> ( fixed for gforth)
    ROT 1 - OVER C@ * + + ;
 
-: ENDCASE
-   4 ?PAIRS COMPILE DROP BEGIN SP@ CSP @ = 0= WHILE 2
-   <<COMPILE>> ENDIF REPEAT CSP ! ; IMMEDIATE
+( arrays)
+
+SIZE SIZE ARRAY GALAXY ( the galactic array)
+SIZE SIZE ARRAY INFO1  ( planetary array)
+SIZE SIZE ARRAY INFO2  ( strength array)
+2 6 ARRAY FLEETS       ( player's flets info)
+
+: ?pairs - 1 throw ; ( FIXME throw an error if the case statement doesn't match) 
+: vhtab drop drop cr ." FIXME should actually move cursor on screen" ;
 
 ( general utility words)
 : DELAY                      ( delay a fixed amount of time)
@@ -55,7 +62,61 @@ SIZE 3 * 2 / CONSTANT NO-OF-PLANETS ( planets in galaxy)
 : XY@
    X @ Y @ ;
 
+: h1 cr ." FIXME should select hires mode" ;
+: hclr cr ." FIXME should clear screen" ;
+24 40 array screen
+: home cr ." FIXME should return cursor to home position" ;
+
 : CLEAR-SCREEN ( clear hires screen 1)
    H1 HCLR ;
 
-\ STOPPED AT PAGE 130 (page 132 on paper) ====
+: CLEAR-DISP ( fill screen array with FF's)
+   1 1 SCREEN 121 255 FILL ;
+
+: CLEAR-GALAXY ( fills galactic array with NULLs)
+   1 1 GALAXY SIZE SIZE * 0 FILL ;
+
+: CLEAR-INFO ( fills info array with NULLs)
+   1 1 INFO1 SIZE SIZE * 0 FILL
+   1 1 INFO2 SIZE SIZE * 0 FILL ;
+
+: RANDOM1 ( --- ran ) ( random number in range 1-SIZE)
+   RAND1 @ 37 * 651 + DUP RAND1 ! ABS SIZE MOD 1+ ;
+
+: RANDOM2 ( --- ran ) ( random number in range 1-SIZE)
+   RAND2 @ 53 * 773 + DUP RAND2 ! ABS SIZE MOD 1+ ;
+
+: EDGE-CHECK ( n --- ng ) ( calculates wrap around of galaxy)
+   SIZE 1 - + SIZE MOD 1+ ;
+
+: INPUT ( --- n1) ( number input routine)
+   0 BEGIN ( start with zero total)
+     KEY DUP EMIT DUP 8 = ( is it backspace?)
+     IF
+       DROP 10 / 0 ( get rid of last digit)
+     ELSE
+       DUP 57 > ( check if char is digit)
+       IF DROP 1
+       ELSE DUP 48 <
+         IF DROP 1
+         ELSE 48 - SWAP 10 * + 0
+         ENDIF
+       ENDIF
+     ENDIF
+   UNTIL ;
+
+: F ( n1 --- add1) ( ( indexes current fleet array)
+   FLEET-FLAG @ SWAP FLEETS ;
+
+\ bottom of page 130
+
+: CONQUEST ( the main game word)
+   HOME ." HIT ANY KEY" KEY RAND1 ! CR ( random number seed)
+        ." AND AGAIN  " KEY RAND2 ! CR ( random number seed)
+   HOME CR CR CR
+   ." WELCOME TO COSMIC CONQUEST" CR CR
+   ." DEVISED AND WRITTEN BY" CR CR
+   ." ALAN SARTORI-ANGUS"
+   INITIALISE
+   RESTART ;
+ 
