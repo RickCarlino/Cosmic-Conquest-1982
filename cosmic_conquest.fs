@@ -67,6 +67,9 @@ SIZE SIZE ARRAY INFO2  ( strength array)
 24 40 array screen
 : home cr ." FIXME should return cursor to home position" ;
 
+: initialise ." FIXME real code in article" ;
+: restart ." FIXME real code in article" ;
+
 : CLEAR-SCREEN ( clear hires screen 1)
    H1 HCLR ;
 
