@@ -34,4 +34,28 @@ SIZE 3 * 2 / CONSTANT NO-OF-PLANETS ( planets in galaxy)
 250 VARIABLE CREDIT     ( players credit in taxes)
 0 VARIABLE START        ( starting score in the game)
 
-\ === STOPPED ON PAGE 130 ===
+( DEFINING WORDS)
+: ARRAY ( 2D Array)
+   <BUILDS DUP C, * ALLOT DOES>
+   ROT 1 - OVER C@ * + + ;
+
+: ENDCASE
+   4 ?PAIRS COMPILE DROP BEGIN SP@ CSP @ = 0= WHILE 2
+   <<COMPILE>> ENDIF REPEAT CSP ! ; IMMEDIATE
+
+( general utility words)
+: DELAY                      ( delay a fixed amount of time)
+   5000 0 DO LOOP ;
+
+: CLEAR-MSGE                 ( clear message area on text screen)
+   18 10 DO
+           I 0 VHTAB 35 SPACES
+         LOOP ;
+
+: XY@
+   X @ Y @ ;
+
+: CLEAR-SCREEN ( clear hires screen 1)
+   H1 HCLR ;
+
+\ STOPPED AT PAGE 130 (page 132 on paper) ====

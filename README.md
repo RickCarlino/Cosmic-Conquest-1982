@@ -29,8 +29,20 @@ gforth main.fs
 
 I don't have a preferred GForth version yet. **I have no certainty that GForth will work and may change this decision later. Some discussion on Reddit seems to indicate it will either not work or require source modification.**
 
+# Research and Resources
+
+ * The game appears to have been [re-written to run on the Cosmac ELF](http://cosmacelf.com/publications/newsletters/ipso-facto/ipso-facto-42.pdf) rather than an Apple II (FIG-Forth).
+
 # Quirks
 
 Ongoing log of issues:
 
  * Variables `COMP-START` and `COMPUTER` have identical documentation comments. Did the technical editor miss this?
+ * The word `DELAY` is processor dependent - it will need to be updated to run on modern hardware (game will move too fast otherwise).
+ * Certain
+
+# Issues
+
+ * I am still unsure which Forth system this was suposed to run on. The magazine does not specifically say (?).
+ * VHTAB, character graphics, etc. will need to implemented on a modern system. [Some old PDFs shed light on how they worked](http://www.cosmacelf.com/publications/newsletters/ipso-facto/ipso-facto-37.pdf).
+
