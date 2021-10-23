@@ -58,4 +58,40 @@ SIZE 3 * 2 / CONSTANT NO-OF-PLANETS ( planets in galaxy)
 : CLEAR-SCREEN ( clear hires screen 1)
    H1 HCLR ;
 
-\ STOPPED AT PAGE 130 (page 132 on paper) ====
+: CLEAR-DISP ( fill screen array with FF's)
+   1 1 SCREEN 121 255 FILL ;
+
+: CLEAR-GALAXY ( fills galactic array with NULLS)
+   1 1 GALAXY SIZE SIZE * 0 FILL ;
+
+: CLEAR-INFO ( fills info arrays with NULLs)
+   1 1 INFO1 SIZE SIZE * FILL
+   1 1 INFO2 SIZE SIZE * FILL ;
+
+: RANDOM1 ( --- ran) ( random number in range 1-SIZE)
+   RAND1 @ 37 * 651 + DUP RAND1 ! ABS SIZE MOD 1+ ;
+
+: RANDOM2 ( --- ran ) ( random number in range 1-SIZE)
+   RAND2 @ 53 * 773 + DUP RAND2 ! ABS SIZE MOD 1+ ;
+
+: EDGE-CHECK ( n --- ng ) ( calculates wrap around of galaxy)
+   SIZE 1 - + SIZE MOD 1+ ;
+
+: INPUT ( --- n1 ) ( number input routine)
+   0 BEGIN ( start with zero total)
+       KEY DUP EMIT DUP 8 = ( is it backspace?)
+       IF
+         DROP 10 / 0 ( get rid of last digit)
+       ELSE
+         DUP 57 > ( check if char is digit)
+         IF DROP 1
+         ELSE DUP 48 <
+           IF DROP 1
+           ELSE 48 - SWAP 10 * + 0
+           ENDIF
+         ENDIF
+       ENDIF
+     UNTIL ;
+
+: F ( n1 --- add1 ) ( indexes current fleet array)
+   FLEET-FLAG @ SWAP FLEETS ;

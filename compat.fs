@@ -1,0 +1,10 @@
+: <BUILDS ." TODO" ;
+: ?PAIRS ." TODO" ;
+: COMPILE ." TODO" ;
+: <<COMPILE>> ." TODO" ;
+: ENDIF ." TODO" ;
+: VHTAB ." TODO" ;
+: H1 ." TODO" ;
+: HCLR ." TODO" ;
+: SCREEN ." TODO" ;
+: GALAXY ." DELETE THIS AFTER IMPLEMENTING <BUILDS" ;
