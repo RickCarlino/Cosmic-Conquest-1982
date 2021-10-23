@@ -39,6 +39,25 @@ SIZE 3 * 2 / CONSTANT NO-OF-PLANETS ( planets in galaxy)
    <BUILDS DUP C, * ALLOT DOES>
    ROT 1 - OVER C@ * + + ;
 
+SIZE SIZE ARRAY GALAXY ( the galactic array array)
+SIZE SIZE ARRAY INFO1 ( planetary array)
+SIZE SIZE ARRAY INFO2 ( strength array)
+11 11 ARRAY SCREEN ( the screen array)
+2 6 ARRAY FLEETS ( player fleets info)
+
+( the case statement)
+
+: CASE
+   ?COMP CSP @ !CSP 4 ; IMMEDIATE
+
+: OF
+   4 ?PAIRS COMPILE OVER COMPILE = COMPILE 0BRANCH HERE 0 ,
+   COMPILE DROP 5 ; IMMEDIATE
+
+: ENDOF
+   5 ?PAIRS COMPILE BRANCH HERE 0 , SWAP 2 <<COMPILE>>
+   ENDIF 4 ; IMMEDIATE
+
 : ENDCASE
    4 ?PAIRS COMPILE DROP BEGIN SP@ CSP @ = 0= WHILE 2
    <<COMPILE>> ENDIF REPEAT CSP ! ; IMMEDIATE
