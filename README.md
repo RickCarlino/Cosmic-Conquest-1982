@@ -45,4 +45,4 @@ Ongoing log of issues:
 
  * I am still unsure which Forth system this was suposed to run on. The magazine does not specifically say (?).
  * VHTAB, character graphics, etc. will need to implemented on a modern system. [Some old PDFs shed light on how they worked](http://www.cosmacelf.com/publications/newsletters/ipso-facto/ipso-facto-37.pdf).
-
+ * Probably typo in `SET-UP-GALAXY`: /u/erroneousbosh thinks it should read `NO-OF-STARS 0 DO 2 RANDOM1 RANDOM2 GALAXY C!`.
