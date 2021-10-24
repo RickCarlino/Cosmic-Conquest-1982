@@ -1,5 +1,3 @@
-\ NOTE: This work is not complete. I am typing out the code listing as my schedule allows.
-
 ( constants)
 30 CONSTANT SIZE                    ( the size of the galactic array)
 SIZE 2 * CONSTANT NO-OF-STARS       ( no. of stars in the galaxy)
@@ -513,8 +511,6 @@ BUY      ( purchasing of ships at planet)
    DELAY
    12 0 VHTAB 30 SPACES
    14 0 VHTAB 12 SPACES ;             ( clear messages)
-\ page 136 of from: https://archive.org/details/byte-magazine-1982-12/page/n139/mode/1up?q=cosmic+conquest
-\ modified to conform to original from OCR from: https://archive.org/stream/byte-magazine-1982-12/1982_12_BYTE_07-12_Game_Plan_1982_djvu.txt
 
 : TAX     ( collect taxes on players planets)
    0 VTAX !                           ( set tax to 0)
@@ -604,8 +600,6 @@ BUY      ( purchasing of ships at planet)
       IF ( computers fleet destroyed)
       DROP TROOPS @ XY@ INFO2 C@ - TROOPS !
       ( reduce computers troops)
-\ page 138 of from: https://archive.org/details/byte-magazine-1982-12/page/n139/mode/1up?q=cosmic+conquest
-\ modified to conform to original from OCR from: https://archive.org/stream/byte-magazine-1982-12/1982_12_BYTE_07-12_Game_Plan_1982_djvu.txt
 
       0 XY@ GALAXY C!          ( destroy fleet symbol)
          -1 C-FLEETS +!        ( reduce comps fleets)
