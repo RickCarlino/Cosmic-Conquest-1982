@@ -63,7 +63,7 @@ HEX
       ENDIF
       COMPUTER?
       IF
-         COMUTER-TURN
+         COMPUTER-TURN
       ENDIF
       GAME-END?
    UNTIL
@@ -78,3 +78,4 @@ HEX
    ." ALAN SARTORI-ANGUS"
    INITIALISE
    RESTART ;
+

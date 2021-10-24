@@ -1,6 +1,3 @@
-\ NOTE: This is the historic, unmodified copy of the game source.
-\ It probably won't run on most systems.
-
 ( constants)
 30 CONSTANT SIZE                    ( the size of the galactic array)
 SIZE 2 * CONSTANT NO-OF-STARS       ( no. of stars in the galaxy)
@@ -85,8 +82,8 @@ SIZE SIZE ARRAY INFO2 ( strength array)
    1 1 GALAXY SIZE SIZE * 0 FILL ;
 
 : CLEAR-INFO ( fills info arrays with NULLs)
-   1 1 INFO1 SIZE SIZE * FILL
-   1 1 INFO2 SIZE SIZE * FILL ;
+   1 1 INFO1 SIZE SIZE * 0 FILL
+   1 1 INFO2 SIZE SIZE * 0 FILL ;
 
 : RANDOM1 ( --- ran) ( random number in range 1-SIZE)
    RAND1 @ 37 * 651 + DUP RAND1 ! ABS SIZE MOD 1+ ;

@@ -32,7 +32,7 @@
        XY@ INFO1 C@ 6 / DUP LEG !
        12 0 VHTAB ." NO OF LEGIONS AVAILABLE = " 3 .R
        ( take the order)
-       14 0 VHTA8 ." HOW MANY DO YOU REQUIRE?" INPUT
+       14 0 VHTAB ." HOW MANY DO YOU REQUIRE?" INPUT
        LEG @ MIN DUP TEMP1 @ * CREDIT @ >
        IF  ( not enough money)
          16 0 VHTAB ." NOT ENOUGH CREDIT"
@@ -44,7 +44,7 @@
       10 0 VHTAB ." NO TROOPS AVAILABLE"
    ENDIF ;
 
-BUY      ( purchasing of ships at planet)
+: BUY    ( purchasing of ships at planet)
    BUY-V @ 0=
    IF    ( it's ok to buy)
       5 BUY-V !               ( stop continous buying)
@@ -66,7 +66,7 @@ BUY      ( purchasing of ships at planet)
    XY@ INFO2 C@ TEMP1 @ - XY@ INFO2 C! ; ( update on planet)
 
 : LEAVE   ( leave legions from fleet on planet as garrison)
-   10 0 VHTAB .' HOW MANY DO YOU WISH TO LEAVE?" INPUT
+   10 0 VHTAB ." HOW MANY DO YOU WISH TO LEAVE?" INPUT
    5 F @ MIN TEMP1 !         ( no more than you have)
    5 F @ TEMP1 @ - 5 F !     ( update legions on fleet)
    XY@ INFO2 C@ TEMP1 @ + 255 MIN ( no more than 255)
@@ -78,7 +78,7 @@ BUY      ( purchasing of ships at planet)
       ."  PLANET" 16 SPACES CR  ( give class of planet)
       ." LOCAL GARRISON IS " XY@ INFO2 C@ 3 .R ."  LEGIONS"
                                 ( give size of local garrison)
-      12 0 VHTAB .' DO YOU WISH TO:" 12 SPACES ( give options)
+      12 0 VHTAB ." DO YOU WISH TO:" 12 SPACES ( give options)
       CR ." 1.  LEAVE LEGIONS ON PLANET"
       CR ." 2.  GATHER LEGIONS FROM PLANET"
       CR ." 3.  BUY SHIPS"
@@ -178,11 +178,11 @@ BUY      ( purchasing of ships at planet)
         NOT-PLANET  ( otherwise it's not a planet)
    ENDCASE ;
 
-: REVOLT? (pianet at X,Y revolts)
+: REVOLT? ( planet at X,Y revolts)
    12 0 VHTAB ." PLANET AT " Y @ . X @ . ." REVOLTS" DELAY
    XY@ INFO1 C@ 8 / XY@ INFO2 C@ 2DUP >
-   IF   (revolt succeeds)
-      DROP 4 XY@ GALAXY C!            ( place planet ~ymbol)
+   IF   ( revolt succeeds)
+      DROP 4 XY@ GALAXY C!            ( place planet symbol)
       8 * 7 + XY@ INFO1 C!            ( set revolt factor 7)
       0 XY@ INFO2 C!                  ( set lpgions to 0)
       -1 PLANETS +!                   ( reduce no.of planets )
@@ -190,7 +190,7 @@ BUY      ( purchasing of ships at planet)
       14 0 VHTAB ." SUCCEEDS"
    ELSE ( revolt fails)
       SWAP 2 / - XY@ INFO2 C!         ( reduce legions)
-      XY@ INFO1 C@ 7 OR XY@ INFO1 C!  (set revolt factor 7)
+      XY@ INFO1 C@ 7 OR XY@ INFO1 C!  ( set revolt factor 7)
       14 0 VHTAB ." FAILS"
    ENDIF
    DELAY

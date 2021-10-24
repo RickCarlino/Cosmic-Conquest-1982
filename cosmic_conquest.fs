@@ -82,8 +82,8 @@ SIZE SIZE ARRAY INFO2 ( strength array)
    1 1 GALAXY SIZE SIZE * 0 FILL ;
 
 : CLEAR-INFO ( fills info arrays with NULLs)
-   1 1 INFO1 SIZE SIZE * FILL
-   1 1 INFO2 SIZE SIZE * FILL ;
+   1 1 INFO1 SIZE SIZE * 0 FILL
+   1 1 INFO2 SIZE SIZE * 0 FILL ;
 
 : RANDOM1 ( --- ran) ( random number in range 1-SIZE)
    RAND1 @ 37 * 651 + DUP RAND1 ! ABS SIZE MOD 1+ ;
@@ -175,7 +175,7 @@ DECIMAL DROP FORGET C$  ( we don't need C$ and $ any more)
    UNTIL
    DIFF !      ( store difficulty)
    HOME CR CR
-   ." DO YOU WANT" CR ." 1. SHORT" CR . " 2. MEDIUM" CR
+   ." DO YOU WANT" CR ." 1. SHORT" CR ." 2. MEDIUM" CR
    ." 3. LONG" CR ." GAME"
    KEY 127 AND     ( pick up reply)
    CASE
@@ -237,7 +237,7 @@ DECIMAL DROP FORGET C$  ( we don't need C$ and $ any more)
       65 ( left)  OF  0 -1 ENDOF
                       0  0
    ENDCASE
-   23 0 VHTAB 35 SPACES   (clear message )
+   23 0 VHTAB 35 SPACES   ( clear message )
    2 F C@ + EDGE-CHECK SWAP
    1 F C@ + EDGE-CHECK SWAP ;
 
@@ -253,7 +253,7 @@ DECIMAL DROP FORGET C$  ( we don't need C$ and $ any more)
       X @ 20 * 27 + Y @ 1+ 11 * HPOSN
       0 SKETCH                    ( blank out char. there)
       7 HCOLOUR                   ( colour white)
-      X @ 20 * 27 + Y @ 1+ ll * HPOSN
+      X @ 20 * 27 + Y @ 1+ 11 * HPOSN
       CASE                        ( draw shape)
          2 ( a star)         OF 3 SKETCH ( draw star)     ENDOF
          4 ( empty planet)   OF 2 SKETCH ( a planet)      ENDOF
@@ -262,13 +262,13 @@ DECIMAL DROP FORGET C$  ( we don't need C$ and $ any more)
         16 ( players fleet)  OF 4 SKETCH ( players fleet) ENDOF
         17 ( enemy fleet)    OF 5 SKETCH ( enemy fleet)   ENDOF
       ENDCASE
-   END IF ;
+   ENDIF ;
 
 : DRAW-SCAN                       ( draw the screen display)
    1 F C@ 5 - 2 F C@ 5 -
    11 0 DO
       11 0 DO
-              OUER EDGE-CHECK OUER EDGE-CHECK
+              OVER EDGE-CHECK OVER EDGE-CHECK
               J Y ! I X ! GALAXY C@
               PRINT-IT 1+
            LOOP
@@ -278,7 +278,7 @@ DECIMAL DROP FORGET C$  ( we don't need C$ and $ any more)
 
 : DRAW-FIGURES    ( draw the totals in the disp1ay)
    2 10 VHTAB PLANETS @ 5 .R
-   20 33 VHTAB PLANETS @ C-PLANETS @ - Wl *
+   20 33 VHTAB PLANETS @ C-PLANETS @ - W1 *
                1 3 FLEETS @ 2 3 FLEETS @ + W2 * +
                1 5 FLEETS @ 2 5 FLEETS @ + W2 * +
                TROOPS @ W3 * - 6 .R
@@ -298,7 +298,7 @@ DECIMAL DROP FORGET C$  ( we don't need C$ and $ any more)
    0 3 F !                     ( no ships left)
    0 5 F ! ;                   ( no legions left)
 
-: MOUE-FLEET (  X Y ---  )
+: MOVE-FLEET (  X Y ---  )
    2DUP
    0 1 F C@ 2 F C@ GALAXY C!   ( remove old symbol)
    16 ROT ROT GALAXY C!       ( position fleet)
@@ -309,7 +309,7 @@ DECIMAL DROP FORGET C$  ( we don't need C$ and $ any more)
                   ( and take apropriate action)
    EDGE-CHECK SWAP EDGE-CHECK SWAP 2DUP GALAXY C@
    CASE
-      0 ( space)      OF MOUE-FLEET ENDOF
+      0 ( space)      OF MOVE-FLEET ENDOF
       8 ( black hole) OF 23 0 VHTAB ." FLEET IN BLACK HOLE"
                          MOVE-FLEET DELAY NEW-FLEET
                          23 0 VHTAB 35 SPACES ENDOF
@@ -347,7 +347,7 @@ DECIMAL DROP FORGET C$  ( we don't need C$ and $ any more)
        XY@ INFO1 C@ 6 / DUP LEG !
        12 0 VHTAB ." NO OF LEGIONS AVAILABLE = " 3 .R
        ( take the order)
-       14 0 VHTA8 ." HOW MANY DO YOU REQUIRE?" INPUT
+       14 0 VHTAB ." HOW MANY DO YOU REQUIRE?" INPUT
        LEG @ MIN DUP TEMP1 @ * CREDIT @ >
        IF  ( not enough money)
          16 0 VHTAB ." NOT ENOUGH CREDIT"
@@ -359,7 +359,7 @@ DECIMAL DROP FORGET C$  ( we don't need C$ and $ any more)
       10 0 VHTAB ." NO TROOPS AVAILABLE"
    ENDIF ;
 
-BUY      ( purchasing of ships at planet)
+: BUY    ( purchasing of ships at planet)
    BUY-V @ 0=
    IF    ( it's ok to buy)
       5 BUY-V !               ( stop continous buying)
@@ -381,7 +381,7 @@ BUY      ( purchasing of ships at planet)
    XY@ INFO2 C@ TEMP1 @ - XY@ INFO2 C! ; ( update on planet)
 
 : LEAVE   ( leave legions from fleet on planet as garrison)
-   10 0 VHTAB .' HOW MANY DO YOU WISH TO LEAVE?" INPUT
+   10 0 VHTAB ." HOW MANY DO YOU WISH TO LEAVE?" INPUT
    5 F @ MIN TEMP1 !         ( no more than you have)
    5 F @ TEMP1 @ - 5 F !     ( update legions on fleet)
    XY@ INFO2 C@ TEMP1 @ + 255 MIN ( no more than 255)
@@ -393,7 +393,7 @@ BUY      ( purchasing of ships at planet)
       ."  PLANET" 16 SPACES CR  ( give class of planet)
       ." LOCAL GARRISON IS " XY@ INFO2 C@ 3 .R ."  LEGIONS"
                                 ( give size of local garrison)
-      12 0 VHTAB .' DO YOU WISH TO:" 12 SPACES ( give options)
+      12 0 VHTAB ." DO YOU WISH TO:" 12 SPACES ( give options)
       CR ." 1.  LEAVE LEGIONS ON PLANET"
       CR ." 2.  GATHER LEGIONS FROM PLANET"
       CR ." 3.  BUY SHIPS"
@@ -493,11 +493,11 @@ BUY      ( purchasing of ships at planet)
         NOT-PLANET  ( otherwise it's not a planet)
    ENDCASE ;
 
-: REVOLT? (pianet at X,Y revolts)
+: REVOLT? ( planet at X,Y revolts)
    12 0 VHTAB ." PLANET AT " Y @ . X @ . ." REVOLTS" DELAY
    XY@ INFO1 C@ 8 / XY@ INFO2 C@ 2DUP >
-   IF   (revolt succeeds)
-      DROP 4 XY@ GALAXY C!            ( place planet ~ymbol)
+   IF   ( revolt succeeds)
+      DROP 4 XY@ GALAXY C!            ( place planet symbol)
       8 * 7 + XY@ INFO1 C!            ( set revolt factor 7)
       0 XY@ INFO2 C!                  ( set lpgions to 0)
       -1 PLANETS +!                   ( reduce no.of planets )
@@ -505,7 +505,7 @@ BUY      ( purchasing of ships at planet)
       14 0 VHTAB ." SUCCEEDS"
    ELSE ( revolt fails)
       SWAP 2 / - XY@ INFO2 C!         ( reduce legions)
-      XY@ INFO1 C@ 7 OR XY@ INFO1 C!  (set revolt factor 7)
+      XY@ INFO1 C@ 7 OR XY@ INFO1 C!  ( set revolt factor 7)
       14 0 VHTAB ." FAILS"
    ENDIF
    DELAY
@@ -663,7 +663,7 @@ HEX
       ENDIF
       COMPUTER?
       IF
-         COMUTER-TURN
+         COMPUTER-TURN
       ENDIF
       GAME-END?
    UNTIL
