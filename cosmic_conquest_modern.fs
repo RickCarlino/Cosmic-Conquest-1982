@@ -33,22 +33,7 @@ SIZE 3 * 2 / CONSTANT NO-OF-PLANETS ( planets in galaxy)
 250 VARIABLE CREDIT     ( players credit in taxes)
 
 ( TARGET SPECIFIC WORDS)
-\ SEE: https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
-: DRAW CR ~~ ." TODO: DRAW" BYE ;
-: H1 9 EMIT ;
-: HCLR CR ~~ ." TODO: HCLR" BYE ;
-: HCOLOUR CR ~~ ." TODO: HCOLOUR" BYE ;
-: HLINE CR ~~ ." TODO: HPOSN" BYE ;
-: HOME .\" [0;0H" ;
-: HPOSN CR ~~ ." TODO: HPOSN" BYE ;
-: SCALE CR ~~ ." TODO: HPOSN" BYE ;
-: VHTAB CR ~~ ." TODO: VHTAB" BYE ;
-
-( POSSIBLE FIG WORDS NOT SUPPORTED IN ANS FORTH)
-\ HELPFUL RESOURCE: https://dwheeler.com/6502/fig-forth-glossary.txt
-: MINUS ." TODO: MINUS" BYE ;
-: -DUP ." TODO: -DUP" BYE ;
-: ?TERMINAL ." TODO: ?TERMINAL" BYE ;
+needs modernise.fs
 
 ( DEFINING WORDS)
 : ARRAY ( 2D Array)
@@ -152,6 +137,11 @@ DECIMAL DROP
 
 : SKETCH  ( n ---  )    ( sketch shape n at current position)
    2 * 0 SWAP SPACEFIG + @ SPACEFIG + DRAW ;
+
+\ this won't work on 64-bit gForth or even 32-bit!
+\ this should probably be rewritten as
+\ 2 * 0 swap spacefig + uw@ spacefig + draw ;
+\ note that the fetch is now unsigned 16-bit
 
 ( into the main game words)
 
@@ -682,5 +672,5 @@ HEX
    INITIALISE
    RESTART ;
 
-CONQUEST
-BYE
+\ CONQUEST
+\ BYE
