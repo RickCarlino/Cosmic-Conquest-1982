@@ -2,15 +2,11 @@
 
 This is a re-creation of a [realtime strategy game published in BYTE Magazine in 1982](https://archive.org/details/byte-magazine-1982-12/page/n131/mode/1up?q=cosmic+conquest). It is credited as one of the first realtime strategy computer games.
 
-I am going to try to get it running in GForth on modern hardware.
-
-Wish me luck.
+The code is available as `cosmic_conquest.fs`. It's runability in modern times is still unknown.
 
 # Goals
 
-I have two goals:
-
-1. Create a human-verified reference copy of the original source code.
+1. ~Create a human-verified reference copy of the original source code.~ DONE.
 2. If possible, modify the original source code so that it can run on a modern, standards compliant Forth (I am currently targetting GForth).
 
 # How to Help
@@ -19,15 +15,15 @@ If you would like to help, please reach out to me on Reddit, LinkedIn or Mastodo
 
 # How to Run
 
-**NOT COMPLETE- WORK IN PROGRESS**
+Work in progress. It appears that the game was written in some flavor of FIGForth for the Apple II (possibly FIGForth '78?).
 
-Assuming you have installed `gforth` installed:
+Attempts at emulation have not gone well because I am having a hard time determining the exact Forth version that was originally used.
+
+Currently I am working on a "paraphrased translation" of the original source in `cosmic_conquest_modern.fs`.
 
 ```
-gforth main.fs
+gforth cosmic_conquest_modern.fs
 ```
-
-I don't have a preferred GForth version yet. **I have no certainty that GForth will work and may change this decision later. Some discussion on Reddit seems to indicate it will either not work or require source modification.**
 
 # Research and Resources
 
@@ -37,12 +33,10 @@ I don't have a preferred GForth version yet. **I have no certainty that GForth w
 
 Ongoing log of issues:
 
- * Variables `COMP-START` and `COMPUTER` have identical documentation comments. Did the technical editor miss this?
  * The word `DELAY` is processor dependent - it will need to be updated to run on modern hardware (game will move too fast otherwise).
- * Certain
 
 # Issues
 
  * I am still unsure which Forth system this was suposed to run on. The magazine does not specifically say (?).
  * VHTAB, character graphics, etc. will need to implemented on a modern system. [Some old PDFs shed light on how they worked](http://www.cosmacelf.com/publications/newsletters/ipso-facto/ipso-facto-37.pdf).
-
+ * `CASE`, `OF`, `ENDOF`, `ENDCASE` are included for historical reasons but probably need to be removed from playable version.
