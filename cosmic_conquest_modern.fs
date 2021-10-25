@@ -259,6 +259,8 @@ DECIMAL DROP
       \ and once again, in ANSI
       \ FIXME this needs moved out to a separate file
 
+      Y @ 8 + X @ 2 * 12 + vhtab ."  "
+   
       Y @ 8 + X @ 2 * 12 + vhtab
       CASE                        ( draw shape)
          2 ( a star)         OF ." *" ( draw star)     ENDOF
@@ -631,14 +633,14 @@ DECIMAL DROP
 HEX
 
 : OBEY-COMMAND
-   BUY-V @ -DUP
-   IF
+   BUY-V @ -DUP ( fetch BUY-V, duplicate if nonzero)
+   IF ( nonzero)
       1 - BUY-V !
    ENDIF
    \ C001 C@                ( pick up keyboard character)
    \ FIXME
    \ must read in keyboard character here
-   0 ( fake character!)
+   key 
    CASE
       ( A) 41 OF MOVE-LEFT   ENDOF
       ( S) 53 OF MOVE-RIGHT  ENDOF
@@ -649,7 +651,13 @@ HEX
       ( L) 4C OF LAND        ENDOF
       ( T) 54 OF TAX         ENDOF
       ( F) 46 OF FIRE        ENDOF
-   ENDCASE SP! ;
+   ENDCASE
+   
+   \ ." made it do the end of obey-command apart from sp!"
+   24 0 vhtab
+   .s 
+    \ SP! ;
+    ;
 
 \ think this needs to be here to reset base
 decimal
@@ -669,13 +677,15 @@ decimal
    CLEAR-DISP
    HOME DRAW-BORDERS DRAW-DISPLAY
    BEGIN
-      ?TERMINAL
+      \ ?TERMINAL
       \ I think this means something else here, is ?TERMINAL meant to mean "check for keypress"
       \ rather than "check for break" ?
+      key?
       IF    ( player has pressed a key)
          OBEY-COMMAND
-         -1 LEN +!
-         COMPUTER-TURN
+         \ -1 LEN + !
+         \ COMPUTER-TURN
+         100 ms
       ENDIF
       COMPUTER?
       IF
