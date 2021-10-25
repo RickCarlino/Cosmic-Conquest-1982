@@ -138,6 +138,11 @@ DECIMAL DROP
 : SKETCH  ( n ---  )    ( sketch shape n at current position)
    2 * 0 SWAP SPACEFIG + @ SPACEFIG + DRAW ;
 
+\ this won't work on 64-bit gForth or even 32-bit!
+\ this should probably be rewritten as
+\ 2 * 0 swap spacefig + uw@ spacefig + draw ;
+\ note that the fetch is now unsigned 16-bit
+
 ( into the main game words)
 
 : SET-UP-GALAXY
@@ -667,5 +672,5 @@ HEX
    INITIALISE
    RESTART ;
 
-CONQUEST
-BYE
+\ CONQUEST
+\ BYE
