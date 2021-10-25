@@ -123,7 +123,7 @@ SIZE SIZE ARRAY INFO2 ( strength array)
 0 VARIABLE SPACEFIG 80 ALLOT  ( shape tables)
 
 : C$                        ( loads 8-bit value into table)
-   OYER C! 1+ ;
+   OVER C! 1+ ;
 
 : $                         ( loads 16-bit value into table)
    OVER ! 2 + ;
@@ -413,7 +413,7 @@ DECIMAL DROP FORGET C$  ( we don't need C$ and $ any more)
 
 : COLONISE ( attack an uncolonised planet)
    CLEAR-MSGE
-   XY@ INFO1 C@ B / RANDOM1 1 - 5 / 7 + * 10 / DUP TEMP1 !
+   XY@ INFO1 C@ 8 / RANDOM1 1 - 5 / 7 + * 10 / DUP TEMP1 !
    ( calaculate relative strength of planet)
    5 F @ >
    IF   ( planet drives off your forces)

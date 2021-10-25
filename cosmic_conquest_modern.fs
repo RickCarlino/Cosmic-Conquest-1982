@@ -32,9 +32,28 @@ SIZE 3 * 2 / CONSTANT NO-OF-PLANETS ( planets in galaxy)
 250 VARIABLE CREDIT     ( players credit in taxes)
 0 VARIABLE START        ( starting score in the game)
 
+( TARGET SPECIFIC AND FIGFORTH WORDS)
+\ HELPFUL RESOURCE:
+\ https://dwheeler.com/6502/fig-forth-glossary.txt
+
+
+: B ." TODO: B" BYE ;
+: DRAW ." TODO: DRAW" BYE ;
+: H1 ." TODO: H1" BYE ;
+: HCLR ." TODO: HCLR" BYE ;
+: HCOLOUR ." TODO: HCOLOUR" BYE ;
+: HLINE ." TODO: HPOSN" BYE ;
+: HOME ." [0;0H" ;
+: HPOSN ." TODO: HPOSN" BYE ;
+: SCALE ." TODO: HPOSN" BYE ;
+: VHTAB ." TODO: VHTAB" BYE ;
+: MINUS ." TODO: MINUS" BYE ;
+: -DUP ." TODO: -DUP" BYE ;
+: ?TERMINAL ." TODO: ?TERMINAL" BYE ;
+
 ( DEFINING WORDS)
 : ARRAY ( 2D Array)
-   <BUILDS DUP C, * ALLOT DOES>
+   CREATE DUP C, * ALLOT DOES>
    ROT 1 - OVER C@ * + + ;
 
 SIZE SIZE ARRAY GALAXY ( the galactic array array)
@@ -42,23 +61,6 @@ SIZE SIZE ARRAY INFO1 ( planetary array)
 SIZE SIZE ARRAY INFO2 ( strength array)
 11 11 ARRAY SCREEN ( the screen array)
 2 6 ARRAY FLEETS ( player fleets info)
-
-( the case statement)
-
-: CASE
-   ?COMP CSP @ !CSP 4 ; IMMEDIATE
-
-: OF
-   4 ?PAIRS COMPILE OVER COMPILE = COMPILE 0BRANCH HERE 0 ,
-   COMPILE DROP 5 ; IMMEDIATE
-
-: ENDOF
-   5 ?PAIRS COMPILE BRANCH HERE 0 , SWAP 2 <<COMPILE>>
-   ENDIF 4 ; IMMEDIATE
-
-: ENDCASE
-   4 ?PAIRS COMPILE DROP BEGIN SP@ CSP @ = 0= WHILE 2
-   <<COMPILE>> ENDIF REPEAT CSP ! ; IMMEDIATE
 
 ( general utility words)
 : DELAY                      ( delay a fixed amount of time)
@@ -123,7 +125,7 @@ SIZE SIZE ARRAY INFO2 ( strength array)
 0 VARIABLE SPACEFIG 80 ALLOT  ( shape tables)
 
 : C$                        ( loads 8-bit value into table)
-   OYER C! 1+ ;
+   OVER C! 1+ ;
 
 : $                         ( loads 16-bit value into table)
    OVER ! 2 + ;
@@ -146,7 +148,8 @@ SPACEFIG                    ( load shape tables)
 ( computers fleet shape)
    36 C$ 07 C$ 20 C$ 29 C$ 32 C$ 00 C$
 
-DECIMAL DROP FORGET C$  ( we don't need C$ and $ any more)
+DECIMAL DROP
+\ FORGET C$  ( we don't need C$ and $ any more)
 
 : SKETCH  ( n ---  )    ( sketch shape n at current position)
    2 * 0 SWAP SPACEFIG + @ SPACEFIG + DRAW ;
@@ -380,7 +383,8 @@ DECIMAL DROP FORGET C$  ( we don't need C$ and $ any more)
    5 F @ TEMP1 @ + 5 F !     ( update legions on fleet)
    XY@ INFO2 C@ TEMP1 @ - XY@ INFO2 C! ; ( update on planet)
 
-: LEAVE   ( leave legions from fleet on planet as garrison)
+\ Orignal name: "LEAVE"
+: DEPLOY   ( leave legions from fleet on planet as garrison)
    10 0 VHTAB ." HOW MANY DO YOU WISH TO LEAVE?" INPUT
    5 F @ MIN TEMP1 !         ( no more than you have)
    5 F @ TEMP1 @ - 5 F !     ( update legions on fleet)
@@ -402,18 +406,18 @@ DECIMAL DROP FORGET C$  ( we don't need C$ and $ any more)
       KEY 127 AND              ( get reply)
       CLEAR-MSGE
       CASE
-         49 ( 1) OF LEAVE 0   ( leave legions) ENDOF
+         49 ( 1) OF DEPLOY 0 ( leave legions)  ENDOF
          50 ( 2) OF GATHER 0 ( gather legions) ENDOF
-         51 ( 3) OF BUY 0         ( buy ships) ENDOF
-         52 ( 4) OF ENLIST 0    ( en1ist troops) ENDOF
-                           1   ( the default: Ieave planet)
+         51 ( 3) OF BUY 0    ( buy ships)      ENDOF
+         52 ( 4) OF ENLIST 0 ( en1ist troops)  ENDOF
+                           1 ( the default: leave planet)
       ENDCASE DELAY
    UNTIL
    H1 CLEAR-MSGE DRAW-DISPLAY ;
 
 : COLONISE ( attack an uncolonised planet)
    CLEAR-MSGE
-   XY@ INFO1 C@ B / RANDOM1 1 - 5 / 7 + * 10 / DUP TEMP1 !
+   XY@ INFO1 C@ 8 / RANDOM1 1 - 5 / 7 + * 10 / DUP TEMP1 !
    ( calaculate relative strength of planet)
    5 F @ >
    IF   ( planet drives off your forces)
@@ -678,3 +682,6 @@ HEX
    ." ALAN SARTORI-ANGUS"
    INITIALISE
    RESTART ;
+
+CONQUEST
+BYE
