@@ -9,7 +9,7 @@
 0 VARIABLE SPACEFIG 80 ALLOT  ( shape tables)
 
 : C$                        ( loads 8-bit value into table)
-   OYER C! 1+ ;
+   OVER C! 1+ ;
 
 : $                         ( loads 16-bit value into table)
    OVER ! 2 + ;

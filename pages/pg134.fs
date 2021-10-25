@@ -98,7 +98,7 @@
 
 : COLONISE ( attack an uncolonised planet)
    CLEAR-MSGE
-   XY@ INFO1 C@ B / RANDOM1 1 - 5 / 7 + * 10 / DUP TEMP1 !
+   XY@ INFO1 C@ 8 / RANDOM1 1 - 5 / 7 + * 10 / DUP TEMP1 !
    ( calaculate relative strength of planet)
    5 F @ >
    IF   ( planet drives off your forces)

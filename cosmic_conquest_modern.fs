@@ -9,44 +9,43 @@ SIZE 3 * 2 / CONSTANT NO-OF-PLANETS ( planets in galaxy)
 20000 CONSTANT SPEED                ( how quickly computer moves)
 
 ( VARIABLES)
-0 VARIABLE TEMP1        ( a temporary storage v ariable)
-0 VARIABLE VTAX         ( tax collected)
-0 VARIABLE C-LEGIONS    ( no. of computer legions for attacks)
-0 VARIABLE CLASS-TOTALS ( computers planets classes totals)
-0 VARIABLE C-FLEETS     ( no. of computer fleets)
-0 VARIABLE LEN          ( no. of moves remaining in game)
-0 VARIABLE TROOPS       ( no. of computers troops in game)
-0 VARIABLE RAND1        ( first random number seed)
-0 VARIABLE RAND2        ( second random number seed)
-0 VARIABLE X            ( temporary storage for X position)
-0 VARIABLE Y            ( temporary storage for Y position)
 0 VARIABLE BUY-V        ( count to stop player buying every move)
-0 VARIABLE LEG          ( the no. of legions available to buy)
-0 VARIABLE NEW          ( how often new fleet created)
+0 VARIABLE C-FLEETS     ( no. of computer fleets)
+0 VARIABLE C-LEGIONS    ( no. of computer legions for attacks)
+0 VARIABLE C-PLANETS    ( no. of computer planets)
+0 VARIABLE CLASS-TOTALS ( computers planets classes totals)
 0 VARIABLE COMP-START   ( how quickly computer plays)
 0 VARIABLE COMPUTER     ( how quickly computer plays)
 0 VARIABLE DIFF         ( difficulty of game 1-4)
-0 VARIABLE C-PLANETS    ( no. of computer planets)
-0 VARIABLE PLANETS      ( no. of players planets)
 0 VARIABLE FLEET-FLAG   ( no. of players current fleet)
-250 VARIABLE CREDIT     ( players credit in taxes)
+0 VARIABLE LEG          ( the no. of legions available to buy)
+0 VARIABLE LEN          ( no. of moves remaining in game)
+0 VARIABLE NEW          ( how often new fleet created)
+0 VARIABLE PLANETS      ( no. of players planets)
+0 VARIABLE RAND1        ( first random number seed)
+0 VARIABLE RAND2        ( second random number seed)
 0 VARIABLE START        ( starting score in the game)
+0 VARIABLE TEMP1        ( a temporary storage v ariable)
+0 VARIABLE TROOPS       ( no. of computers troops in game)
+0 VARIABLE VTAX         ( tax collected)
+0 VARIABLE X            ( temporary storage for X position)
+0 VARIABLE Y            ( temporary storage for Y position)
+250 VARIABLE CREDIT     ( players credit in taxes)
 
-( TARGET SPECIFIC AND FIGFORTH WORDS)
-\ HELPFUL RESOURCE:
-\ https://dwheeler.com/6502/fig-forth-glossary.txt
+( TARGET SPECIFIC WORDS)
+\ SEE: https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
+: DRAW CR ~~ ." TODO: DRAW" BYE ;
+: H1 9 EMIT ;
+: HCLR CR ~~ ." TODO: HCLR" BYE ;
+: HCOLOUR CR ~~ ." TODO: HCOLOUR" BYE ;
+: HLINE CR ~~ ." TODO: HPOSN" BYE ;
+: HOME .\" [0;0H" ;
+: HPOSN CR ~~ ." TODO: HPOSN" BYE ;
+: SCALE CR ~~ ." TODO: HPOSN" BYE ;
+: VHTAB CR ~~ ." TODO: VHTAB" BYE ;
 
-
-: B ." TODO: B" BYE ;
-: DRAW ." TODO: DRAW" BYE ;
-: H1 ." TODO: H1" BYE ;
-: HCLR ." TODO: HCLR" BYE ;
-: HCOLOUR ." TODO: HCOLOUR" BYE ;
-: HLINE ." TODO: HPOSN" BYE ;
-: HOME ." [0;0H" ;
-: HPOSN ." TODO: HPOSN" BYE ;
-: SCALE ." TODO: HPOSN" BYE ;
-: VHTAB ." TODO: VHTAB" BYE ;
+( POSSIBLE FIG WORDS NOT SUPPORTED IN ANS FORTH)
+\ HELPFUL RESOURCE: https://dwheeler.com/6502/fig-forth-glossary.txt
 : MINUS ." TODO: MINUS" BYE ;
 : -DUP ." TODO: -DUP" BYE ;
 : ?TERMINAL ." TODO: ?TERMINAL" BYE ;
