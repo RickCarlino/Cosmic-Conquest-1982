@@ -241,6 +241,7 @@ DECIMAL DROP
    IF  ( display is already showing this shape so don't bother)
       DROP
    ELSE
+      dup \ for ANSI print
       DUP X @ 1+ Y @ 1+ SCREEN C! ( remember what screen has)
       0 HCOLOUR                   ( colour black)
       X @ 20 * 27 + Y @ 1+ 11 * HPOSN
@@ -255,6 +256,19 @@ DECIMAL DROP
         16 ( players fleet)  OF 4 SKETCH ( players fleet) ENDOF
         17 ( enemy fleet)    OF 5 SKETCH ( enemy fleet)   ENDOF
       ENDCASE
+      \ and once again, in ANSI
+      \ FIXME this needs moved out to a separate file
+
+      Y @ 8 + X @ 2 * 12 + vhtab
+      CASE                        ( draw shape)
+         2 ( a star)         OF ." *" ( draw star)     ENDOF
+         4 ( empty planet)   OF ." O" ( a planet)      ENDOF
+         5 ( enemy planet)   OF ." 0" ( a planet)      ENDOF
+       132 ( players planet) OF ." @" ( a colony)      ENDOF
+        16 ( players fleet)  OF ." P" ( players fleet) ENDOF
+        17 ( enemy fleet)    OF ." E" ( enemy fleet)   ENDOF
+      ENDCASE
+      
    ENDIF ;
 
 : DRAW-SCAN                       ( draw the screen display)
