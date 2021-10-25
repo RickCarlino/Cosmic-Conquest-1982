@@ -35,6 +35,6 @@ needs modernise.fs
 \ Helpful book: Forth Fundamentals Vol. 2, C. Kevin McCabe, dilithium Press 1983, ISBN 0-88056-092-4
 : MINUS negate ( FFv2 page 97) ;
 : -DUP ?dup ( FFv2 page 39) ;
-: ?TERMINAL ." TODO: ?TERMINAL" BYE ;
+\ : ?TERMINAL ." TODO: ?TERMINAL" BYE ;
 \ ?TERMINAL detects if there's a "break" keypress, leaving true on the stack if there is or false if there is not
-: ?terminal 1 ;
+: ?terminal 0 ;
