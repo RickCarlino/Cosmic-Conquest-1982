@@ -15,7 +15,15 @@ If you would like to help, please reach out to me on Reddit, LinkedIn or Mastodo
 
 # How to Run
 
-Work in progress. It appears that the game was written in some flavor of FIGForth for the Apple II (possibly FIGForth '78?)
+Work in progress. It appears that the game was written in some flavor of FIGForth for the Apple II (possibly FIGForth '78?).
+
+Attempts at emulation have not gone well because I am having a hard time determining the exact Forth version that was originally used.
+
+Currently I am working on a "paraphrased translation" of the original source in `cosmic_conquest_modern.fs`.
+
+```
+gforth cosmic_conquest_modern.fs
+```
 
 # Research and Resources
 
