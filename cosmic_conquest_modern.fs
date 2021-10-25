@@ -48,7 +48,8 @@ SIZE SIZE ARRAY INFO2 ( strength array)
 
 ( general utility words)
 : DELAY                      ( delay a fixed amount of time)
-   5000 0 DO LOOP ;
+   \ 5000 0 DO LOOP ;
+   500 ms ; ( wait half a second.  Is this long enough?  Who knows, should probably be a CONSTANT)
 
 : CLEAR-MSGE                 ( clear message area on text screen)
    18 10 DO
@@ -620,7 +621,10 @@ HEX
    IF
       1 - BUY-V !
    ENDIF
-   C001 C@                ( pick up keyboard character)
+   \ C001 C@                ( pick up keyboard character)
+   \ FIXME
+   \ must read in keyboard character here
+   0 ( fake character!)
    CASE
       ( A) 41 OF MOVE-LEFT   ENDOF
       ( S) 53 OF MOVE-RIGHT  ENDOF
@@ -632,6 +636,9 @@ HEX
       ( T) 54 OF TAX         ENDOF
       ( F) 46 OF FIRE        ENDOF
    ENDCASE SP! ;
+
+\ think this needs to be here to reset base
+decimal
 
 : COMPUTER?    ( is it the computers turn or not)
    COMPUTER @ 1 - DUP 0=
@@ -649,6 +656,8 @@ HEX
    HOME DRAW-BORDERS DRAW-DISPLAY
    BEGIN
       ?TERMINAL
+      \ I think this means something else here, is ?TERMINAL meant to mean "check for keypress"
+      \ rather than "check for break" ?
       IF    ( player has pressed a key)
          OBEY-COMMAND
          -1 LEN +!
@@ -659,6 +668,8 @@ HEX
          COMPUTER-TURN
       ENDIF
       GAME-END?
+   \ slow the game a little by printing how many loops until it's the computer's turn
+   0 30 vhtab computer @ .
    UNTIL
    END-MSGE ;
 
