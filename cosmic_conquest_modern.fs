@@ -99,8 +99,8 @@ SIZE SIZE ARRAY INFO2 ( strength array)
 
 : F ( n1 --- add1 ) ( indexes current fleet array)
    FLEET-FLAG @ SWAP FLEETS ;
-: TEXT                      ( selects text screen )
-   0 -16303 C! ;
+\ : TEXT                      ( selects text screen )
+\  0 -16303 C! ;
 
 : END-MSGE                  ( end of game message)
    TEXT 12 0 VHTAB ." END OF GAME COMMANDER" ;
@@ -237,10 +237,10 @@ DECIMAL DROP
 : PRINT-IT  ( c  --- )
             ( shape determined by c is printed on screen at)
             ( position in X,Y)
-   DUP X @ 1+ Y @ 1+ SCREEN C@ =
-   IF  ( display is already showing this shape so don't bother)
-      DROP
-   ELSE
+   \ DUP X @ 1+ Y @ 1+ SCREEN C@ =
+   \ IF  ( display is already showing this shape so don't bother)
+   \   DROP
+   \ ELSE
       dup \ for ANSI print
       DUP X @ 1+ Y @ 1+ SCREEN C! ( remember what screen has)
       0 HCOLOUR                   ( colour black)
@@ -259,6 +259,8 @@ DECIMAL DROP
       \ and once again, in ANSI
       \ FIXME this needs moved out to a separate file
 
+      Y @ 8 + X @ 2 * 12 + vhtab ."  "
+   
       Y @ 8 + X @ 2 * 12 + vhtab
       CASE                        ( draw shape)
          2 ( a star)         OF ." *" ( draw star)     ENDOF
@@ -269,7 +271,8 @@ DECIMAL DROP
         17 ( enemy fleet)    OF ." E" ( enemy fleet)   ENDOF
       ENDCASE
       
-   ENDIF ;
+   \ ENDIF
+   ;
 
 : DRAW-SCAN                       ( draw the screen display)
    1 F C@ 5 - 2 F C@ 5 -
@@ -301,6 +304,7 @@ DECIMAL DROP
    1 SCALE H1 DRAW-SCAN DRAW-FIGURES ;
 
 : NEW-FLEET  ( fleet destroyed for some reason)
+   24 0 vhtab ." fleet destroyed"
    0 1 F C@ 2 F C@ GALAXY C!   ( remove fleet symbol)
    0 3 F w!                     ( no ships left)
    0 5 F w! ;                   ( no legions left)
@@ -631,14 +635,14 @@ DECIMAL DROP
 HEX
 
 : OBEY-COMMAND
-   BUY-V @ -DUP
-   IF
+   BUY-V @ -DUP ( fetch BUY-V, duplicate if nonzero)
+   IF ( nonzero)
       1 - BUY-V !
    ENDIF
    \ C001 C@                ( pick up keyboard character)
    \ FIXME
    \ must read in keyboard character here
-   0 ( fake character!)
+   key 
    CASE
       ( A) 41 OF MOVE-LEFT   ENDOF
       ( S) 53 OF MOVE-RIGHT  ENDOF
@@ -649,7 +653,13 @@ HEX
       ( L) 4C OF LAND        ENDOF
       ( T) 54 OF TAX         ENDOF
       ( F) 46 OF FIRE        ENDOF
-   ENDCASE SP! ;
+   ENDCASE
+   
+   \ ." made it do the end of obey-command apart from sp!"
+   24 0 vhtab
+   .s 
+    \ SP! ;
+    ;
 
 \ think this needs to be here to reset base
 decimal
@@ -669,13 +679,15 @@ decimal
    CLEAR-DISP
    HOME DRAW-BORDERS DRAW-DISPLAY
    BEGIN
-      ?TERMINAL
+      \ ?TERMINAL
       \ I think this means something else here, is ?TERMINAL meant to mean "check for keypress"
       \ rather than "check for break" ?
+      key?
       IF    ( player has pressed a key)
          OBEY-COMMAND
-         -1 LEN +!
-         COMPUTER-TURN
+         \ -1 LEN + !
+         \ COMPUTER-TURN
+         100 ms
       ENDIF
       COMPUTER?
       IF
