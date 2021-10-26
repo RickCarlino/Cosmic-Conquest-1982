@@ -8,6 +8,8 @@ SIZE 3 * 2 / CONSTANT NO-OF-PLANETS ( planets in galaxy)
 10 CONSTANT W3                      ( weight assigned to computers troops)
 20000 CONSTANT SPEED                ( how quickly computer moves)
 
+1000 constant delayms ( milliseconds to wait for in DELAY)
+
 ( VARIABLES)
 0 VARIABLE BUY-V        ( count to stop player buying every move)
 0 VARIABLE C-FLEETS     ( no. of computer fleets)
@@ -48,8 +50,8 @@ SIZE SIZE ARRAY INFO2 ( strength array)
 
 ( general utility words)
 : DELAY                      ( delay a fixed amount of time)
-   \ 5000 0 DO LOOP ;
-   500 ms ; ( wait half a second.  Is this long enough?  Who knows, should probably be a CONSTANT)
+   \ 5000 0 DO LOOP ;  ( in BASIC FOR I=1 TO 5000:NEXT takes about four seconds, seems too long)
+   delayms ms ; ( wait a second.  Is this long enough?  Who knows, should probably be a CONSTANT)
 
 : CLEAR-MSGE                 ( clear message area on text screen)
    18 10 DO
@@ -167,6 +169,7 @@ DECIMAL DROP
           ENDIF
    UNTIL
    DIFF !      ( store difficulty)
+   hclr ( screen is messy otherwise)
    HOME CR CR
    ." DO YOU WANT" CR ." 1. SHORT" CR ." 2. MEDIUM" CR
    ." 3. LONG" CR ." GAME"
@@ -222,7 +225,7 @@ DECIMAL DROP
 : FIND-DIRECTION     (  --- X Y )
                      ( find out which square player means)
    23 0 VHTAB ." WHICH DIRECTION?"
-   2 SPACES KEY 127 AND
+   2 SPACES inkey 127 AND
    CASE
       87 ( up)    OF -1  0 ENDOF
       90 ( down)  OF  1  0 ENDOF
@@ -259,7 +262,7 @@ DECIMAL DROP
       \ and once again, in ANSI
       \ FIXME this needs moved out to a separate file
 
-      Y @ 8 + X @ 2 * 12 + vhtab ."  "
+      Y @ 8 + X @ 2 * 12 + vhtab ."   "
    
       Y @ 8 + X @ 2 * 12 + vhtab
       CASE                        ( draw shape)
@@ -304,7 +307,10 @@ DECIMAL DROP
    1 SCALE H1 DRAW-SCAN DRAW-FIGURES ;
 
 : NEW-FLEET  ( fleet destroyed for some reason)
-   24 0 vhtab ." fleet destroyed"
+   \ 24 0 vhtab ." fleet destroyed" 
+   \ you can still move the fleet cursor around though
+   \ and buy more ships and take on more legions
+
    0 1 F C@ 2 F C@ GALAXY C!   ( remove fleet symbol)
    0 3 F w!                     ( no ships left)
    0 5 F w! ;                   ( no legions left)
@@ -448,7 +454,7 @@ DECIMAL DROP
    CLEAR-MSGE
    10 0 VHTAB ." UNCOLONISED CLASS " XY@ INFO1 C@ 8 / 2 .R
    ." PLANET"
-   12 0 VHTAB ." DO YOU WISH TO ATTACK?" KEY 127 AND 89 =
+   12 0 VHTAB ." DO YOU WISH TO ATTACK?" inkey 127 AND 89 =
    IF
       COLONISE
    ENDIF
@@ -489,7 +495,7 @@ DECIMAL DROP
    10 0 VHTAB ." CLASS " 2 .R ."  PLANET" CR CR
    ." ENEMY GARRISON OF STRENGTH "
    XY@ INFO2 C@ 3 .R CR CR
-   ." DO YOU WISH TO ATTACK?" KEY 127 AND 89 =
+   ." DO YOU WISH TO ATTACK?" inkey 127 AND 89 =
    IF
       ATTACK
    ENDIF
@@ -639,10 +645,8 @@ HEX
    IF ( nonzero)
       1 - BUY-V !
    ENDIF
-   \ C001 C@                ( pick up keyboard character)
-   \ FIXME
-   \ must read in keyboard character here
-   key 
+
+   inkey 
    CASE
       ( A) 41 OF MOVE-LEFT   ENDOF
       ( S) 53 OF MOVE-RIGHT  ENDOF
@@ -655,10 +659,11 @@ HEX
       ( F) 46 OF FIRE        ENDOF
    ENDCASE
    
-   \ ." made it do the end of obey-command apart from sp!"
-   24 0 vhtab
-   .s 
-    \ SP! ;
+   \ 24 0 vhtab .s ( print current state of stack )
+   
+   \ not sure why sp! is required here and it appears to be syntactically different from gForth
+   \ this should reset the parameter stack, are there values ever left lying around?
+   \ SP! ;
     ;
 
 \ think this needs to be here to reset base
@@ -700,6 +705,7 @@ decimal
    END-MSGE ;
 
 : CONQUEST  ( the main game word)
+   hclr ( get all the mess of the screen)
    HOME ." HIT ANY KEY" KEY RAND1 ! CR ( random number seed)
         ." AND AGAIN  " KEY RAND2 !    ( random number seed)
    HOME CR CR CR
