@@ -263,7 +263,7 @@ DECIMAL DROP
       \ FIXME this needs moved out to a separate file
 
       Y @ 8 + X @ 2 * 12 + vhtab ."   "
-   
+
       Y @ 8 + X @ 2 * 12 + vhtab
       CASE                        ( draw shape)
          2 ( a star)         OF ." *" ( draw star)     ENDOF
@@ -273,7 +273,7 @@ DECIMAL DROP
         16 ( players fleet)  OF ." P" ( players fleet) ENDOF
         17 ( enemy fleet)    OF ." E" ( enemy fleet)   ENDOF
       ENDCASE
-      
+
    \ ENDIF
    ;
 
@@ -307,7 +307,7 @@ DECIMAL DROP
    1 SCALE H1 DRAW-SCAN DRAW-FIGURES ;
 
 : NEW-FLEET  ( fleet destroyed for some reason)
-   \ 24 0 vhtab ." fleet destroyed" 
+   \ 24 0 vhtab ." fleet destroyed"
    \ you can still move the fleet cursor around though
    \ and buy more ships and take on more legions
 
@@ -646,7 +646,7 @@ HEX
       1 - BUY-V !
    ENDIF
 
-   inkey 
+   inkey
    CASE
       ( A) 41 OF MOVE-LEFT   ENDOF
       ( S) 53 OF MOVE-RIGHT  ENDOF
@@ -658,9 +658,9 @@ HEX
       ( T) 54 OF TAX         ENDOF
       ( F) 46 OF FIRE        ENDOF
    ENDCASE
-   
+
    \ 24 0 vhtab .s ( print current state of stack )
-   
+
    \ not sure why sp! is required here and it appears to be syntactically different from gForth
    \ this should reset the parameter stack, are there values ever left lying around?
    \ SP! ;
