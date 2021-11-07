@@ -37,6 +37,7 @@ Key controls:
 
 # Research and Resources
 
+ * **NEW:** Reddit user /u/tmrob4 has created a [new fork of the game that is more playable](https://www.reddit.com/r/Forth/comments/qmx75f/enhanced_version_of_cosmic_conquest_a_forth_based/)
  * The game appears to have been [re-written to run on the Cosmac ELF](http://cosmacelf.com/publications/newsletters/ipso-facto/ipso-facto-42.pdf) rather than an Apple II (FIG-Forth).
  * To date, no one in the Forth community is sure which Forth system this was suposed to run on, nor can a compatible system be found. Byte Magazine does not specifically say (?).
 
